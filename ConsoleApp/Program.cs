@@ -15,7 +15,10 @@ namespace ConsoleApp
             int encrypted = encryptionService.Encrypt(number);
             int decrypted = encryptionService.Decrypt(encrypted);
 
-            Console.WriteLine($"number: {number}, encrypted: {encrypted}, decrypted: {decrypted}");
+            PrivateKey privateKey = encryptionService.TryGetPrivateKeyUsingPublic(number, encrypted);
+
+            Console.WriteLine($"number: {number}, encrypted: {encrypted}, decrypted: {decrypted}" +
+                $"\nprivate key: {privateKey.ToString()}");
         }
     }
 }

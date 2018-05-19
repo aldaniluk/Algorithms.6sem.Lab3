@@ -34,6 +34,21 @@ namespace Logic
             return decrypted;
         }
 
+        public PrivateKey TryGetPrivateKeyUsingPublic(int message, int encryptedMessage)
+        {
+            int d = 1;
+            while (true)
+            {
+                int tryDecrypt = SmartExponentiation(encryptedMessage, d, PublicKey.N);
+                if (tryDecrypt == message)
+                {
+                    return new PrivateKey(d, PublicKey.N);
+                }
+
+                d++;
+            }
+        }
+
         private int SmartExponentiation(int message, int power, int module)
         {
             int nextPower = 2;
@@ -52,7 +67,7 @@ namespace Logic
             int e = 2;
             while (true)
             {
-                if (e < fi && IsPrime(e) && RelativelyPrime(e, fi))
+                if (e < fi && IsPrime(e) && AreRelativelyPrime(e, fi))
                 {
                     return e;
                 }
@@ -65,7 +80,8 @@ namespace Logic
         {
             if (e > 1)
             {
-                bool isPrime = Enumerable.Range(1, e).Where(n => e % n == 0).SequenceEqual(new int[] { 1, e });
+                bool isPrime = Enumerable.Range(1, e).Where(n => e % n == 0)
+                    .SequenceEqual(new int[] { 1, e });
 
                 return isPrime;
             }
@@ -73,7 +89,7 @@ namespace Logic
             return false;
         }
 
-        private bool RelativelyPrime(int e, int fi)
+        private bool AreRelativelyPrime(int e, int fi)
         {
             int i = 2;
             while (i < e)

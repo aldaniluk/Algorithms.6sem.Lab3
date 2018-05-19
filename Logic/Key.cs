@@ -11,6 +11,11 @@
             E = e;
             N = n;
         }
+
+        public override string ToString()
+        {
+            return $"E:{E},N:{N}";
+        }
     }
 
     public class PrivateKey
@@ -23,6 +28,11 @@
         {
             D = d;
             N = n;
+        }
+
+        public override string ToString()
+        {
+            return $"D:{D},N:{N}";
         }
     }
 }
